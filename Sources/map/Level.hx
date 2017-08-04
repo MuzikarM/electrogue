@@ -54,11 +54,13 @@ class Level{
 	}
 
 	public function render(g:Graphics){
-		for (point in points){
-			point.render(g);
-		}
+		g.color = 0xffff0000;
 		for (c in connections){
 			c.render(g);
+		}
+		g.color = 0xffffffff;
+		for (point in points){
+			point.render(g);
 		}
 	}
 

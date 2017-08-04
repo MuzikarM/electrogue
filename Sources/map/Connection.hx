@@ -26,10 +26,6 @@ class Connection{
 		g.drawLine(a.pos.x, a.pos.y, b.pos.x, a.pos.y, 2);
 		g.fillRect(b.pos.x-2, a.pos.y-2, 4, 4);
 		g.drawLine(b.pos.x, a.pos.y, b.pos.x, b.pos.y, 2);
-		g.color = 0xffff0000;
-		a.render(g);
-		b.render(g);
-		g.color = 0xffffffff;
 	}
 
 }
