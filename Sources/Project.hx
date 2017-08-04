@@ -7,6 +7,7 @@ import kha.Scaler;
 import kha.Image;
 
 import map.Level;
+import utils.Controls;
 
 class Project {
 	
@@ -24,7 +25,7 @@ class Project {
 	}
 
 	function update(): Void {
-		
+		level.update();
 	}
 
 	function render(framebuffer: Framebuffer): Void {	

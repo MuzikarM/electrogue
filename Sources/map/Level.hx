@@ -1,6 +1,8 @@
 package map;
 
 import utils.MathUtils;
+import entities.Entity;
+import entities.Player;
 
 class Level{
 
@@ -12,27 +14,21 @@ class Level{
 
 	var points:Array<Point>;
 	var connections:Array<Connection>;
+	var entities:Array<Entity>;
 
 	public function new(w:Float = 512, h:Float = 512){
 		width = w;
 		height = h;
+		entities = [];
 		populateLevel();
-		/*points = [
-			new Point(140, 70),
-			new Point(70, 250),
-			new Point(315, 85),
-			new Point(250, 140)
-		];
-		connections = [
-			new Connection(points[0], points[3]),
-			new Connection(points[2], points[0]),
-			new Connection(points[1], points[2])
-		];*/
 	}
 
 	private function populateLevel(){
 		this.points = generatePoints();
 		this.connections = connectPoints();
+
+		var point = points[MathUtils.RANDOM.GetIn(0, points.length-1)];
+		entities.push(new Player(point.pos.x, point.pos.y));
 
 		trace('Generated map with total of ${points.length} points');
 	}
@@ -40,7 +36,7 @@ class Level{
 	private function generatePoints():Array<Point>{
 		return [
 			for (i in 0...MathUtils.RANDOM.GetIn(MIN_POINTS, MAX_POINTS)){
-				new Point(MathUtils.RANDOM.GetFloatIn(10, width), MathUtils.RANDOM.GetFloatIn(10, height));
+				new Point(MathUtils.RANDOM.GetFloatIn(20, width), MathUtils.RANDOM.GetFloatIn(20, height));
 			} 
 		];
 	}
@@ -53,6 +49,12 @@ class Level{
 		];
 	}
 
+	public function update(){
+		for (entity in entities){
+			entity.update();
+		}
+	}
+
 	public function render(g:Graphics){
 		g.color = 0xffff0000;
 		for (c in connections){
@@ -61,6 +63,11 @@ class Level{
 		g.color = 0xffffffff;
 		for (point in points){
 			point.render(g);
+		}
+		for (entity in entities){
+			if (entity.shouldRender()){
+				entity.render(g);
+			}
 		}
 	}
 
