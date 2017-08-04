@@ -11,4 +11,8 @@ class MathUtils{
 		return Math.min(max, Math.max(min, amount));
 	}
 
+	public static function isCloseEnough(a:Vector2, b:Vector2):Bool{
+		return Std.int(a.x) == Std.int(b.x) && Std.int(a.y) == Std.int(b.y);
+	}
+
 }

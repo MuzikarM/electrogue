@@ -6,8 +6,8 @@ import entities.Player;
 
 class Level{
 
-	static inline var MIN_POINTS:Int = 10;
-	static inline var MAX_POINTS:Int = 50;
+	static inline var MIN_POINTS:Int = 5;
+	static inline var MAX_POINTS:Int = 10;
 
 	var width:Float;
 	var height:Float;
@@ -28,7 +28,7 @@ class Level{
 		this.connections = connectPoints();
 
 		var point = points[MathUtils.RANDOM.GetIn(0, points.length-1)];
-		entities.push(new Player(point.pos.x, point.pos.y));
+		entities.push(new Player(point));
 
 		trace('Generated map with total of ${points.length} points');
 	}
