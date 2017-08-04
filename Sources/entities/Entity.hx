@@ -18,7 +18,7 @@ class Entity{
 
 	}
 
-	public function update(){
+	public function update(dt:Float){
 
 	}
 

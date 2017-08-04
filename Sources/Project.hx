@@ -16,16 +16,20 @@ class Project {
 
 	var level:Level;
 	var backbuffer:Image;
+	var prevTime:Float;
 
 	public function new() {
 		System.notifyOnRender(render);
 		Scheduler.addTimeTask(update, 0, 1 / 60);
 		backbuffer = Image.createRenderTarget(BB_WIDTH, BB_HEIGHT);
 		level = new Level();
+		prevTime = System.time;
 	}
 
 	function update(): Void {
-		level.update();
+		var delta = System.time - prevTime;
+		prevTime = System.time;
+		level.update(delta);
 	}
 
 	function render(framebuffer: Framebuffer): Void {	

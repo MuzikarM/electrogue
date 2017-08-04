@@ -49,9 +49,9 @@ class Level{
 		];
 	}
 
-	public function update(){
+	public function update(dt:Float){
 		for (entity in entities){
-			entity.update();
+			entity.update(dt);
 		}
 	}
 
