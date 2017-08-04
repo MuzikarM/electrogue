@@ -8,6 +8,7 @@ class Controls{
 	public var right(default, null):Bool;
 	public var up(default, null):Bool;
 	public var down(default, null):Bool;
+	public var space(default, null):Bool;
 	
 	public function new(){
 		kha.input.Keyboard.get().notify(keyDown, keyUp);
@@ -35,6 +36,8 @@ class Controls{
 				left = true;
 			case("d"):
 				right = true;
+			case(" "):
+				space = true;
 			default:
 				//no-op
 		}
@@ -62,6 +65,8 @@ class Controls{
 				left = false;
 			case("d"):
 				right = false;
+			case(" "):
+				space = false;
 			default:
 				//no-op
 		}

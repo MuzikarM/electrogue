@@ -8,6 +8,8 @@ using kha.graphics2.GraphicsExtension;
 
 class Player extends Entity{
 
+	var maxFreeTime:Float = 5;
+
 	var controls:Controls;
 	var speed:Float = 5;
 	var state:State;
@@ -18,9 +20,9 @@ class Player extends Entity{
 		controls = new Controls();
 	}
 
-	public override function update(){
+	public override function update(dt:Float){
 		switch(state){
-			case(FREE(tl)):{
+			case(FREE(tl, prev)):{
 				if (controls.left){
 					pos.x -= speed;
 				}
@@ -33,6 +35,12 @@ class Player extends Entity{
 				if (controls.down){
 					pos.y += speed;
 				}
+				tl -= dt;
+				if (tl <= 0){
+					state = prev;
+				} else {
+					state = FREE(tl, prev);
+				}
 				pos.x = MathUtils.clamp(25, 512, pos.x);
 				pos.y = MathUtils.clamp(25, 512, pos.y);
 			}
@@ -42,12 +50,18 @@ class Player extends Entity{
 						state = CONNECTION(val, p);
 					}
 				}
+				if (controls.space){
+					state = FREE(maxFreeTime, state);
+				}
 				check(controls.left, n.left, n);
 				check(controls.right, n.right, n);
 				check(controls.up, n.up, n);
 				check(controls.down, n.down, n);
 			}
 			case(CONNECTION(c, p)):{
+				if (controls.space){
+					state = FREE(maxFreeTime, state);
+				}
 				trace("Player in on connection");
 				pos = c.move(pos, p, 2);
 				var other = c.getOther(p);
@@ -70,7 +84,7 @@ class Player extends Entity{
 
 
 enum State{
-	FREE(timeleft:Float);
+	FREE(timeleft:Float, prevState:State);
 	NODE(point:map.Point);
 	CONNECTION(connection:map.Connection, prev:map.Point);
 }
