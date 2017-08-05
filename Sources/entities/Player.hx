@@ -70,11 +70,9 @@ class Player extends Entity{
 				if (controls.space){
 					state = FREE(maxFreeTime);
 				}
-				trace("Player in on connection");
 				pos = c.move(pos, p, 2);
 				var other = c.getOther(p);
 				if (MathUtils.isCloseEnough(pos, other.pos)){
-					trace("changing state to node");
 					state = NODE(other);
 				}
 			}
