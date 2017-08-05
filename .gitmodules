@@ -1,0 +1,3 @@
+[submodule "Libraries/differ"]
+	path = Libraries/differ
+	url = https://github.com/snowkit/differ
