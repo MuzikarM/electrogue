@@ -2,7 +2,7 @@ package entities;
 
 import utils.Controls;
 import utils.MathUtils;
-
+import differ.shapes.Circle;
 
 using kha.graphics2.GraphicsExtension;
 
@@ -13,16 +13,22 @@ class Player extends Entity{
 	var controls:Controls;
 	var speed:Float = 5;
 	var state:State;
+	var map:map.Level;
 
-	public function new(point:map.Point){
+	public function new(point:map.Point, map:map.Level){
 		super(point.pos.x, point.pos.y);
+		this.map = map;
 		state = NODE(point);
 		controls = new Controls();
 	}
 
+	public override function getBounds(){
+		return new Circle(pos.x, pos.y, 7);
+	}
+
 	public override function update(dt:Float){
 		switch(state){
-			case(FREE(tl, prev)):{
+			case(FREE(tl)):{
 				if (controls.left){
 					pos.x -= speed;
 				}
@@ -37,9 +43,11 @@ class Player extends Entity{
 				}
 				tl -= dt;
 				if (tl <= 0){
-					state = prev;
+					var cl = MathUtils.findClosestPoint(map.points, this);
+					state = NODE(cl);
+					pos = new Vector2(cl.pos.x, cl.pos.y);
 				} else {
-					state = FREE(tl, prev);
+					state = FREE(tl);
 				}
 				pos.x = MathUtils.clamp(25, 512, pos.x);
 				pos.y = MathUtils.clamp(25, 512, pos.y);
@@ -51,7 +59,7 @@ class Player extends Entity{
 					}
 				}
 				if (controls.space){
-					state = FREE(maxFreeTime, state);
+					state = FREE(maxFreeTime);
 				}
 				check(controls.left, n.left, n);
 				check(controls.right, n.right, n);
@@ -60,7 +68,7 @@ class Player extends Entity{
 			}
 			case(CONNECTION(c, p)):{
 				if (controls.space){
-					state = FREE(maxFreeTime, state);
+					state = FREE(maxFreeTime);
 				}
 				trace("Player in on connection");
 				pos = c.move(pos, p, 2);
@@ -84,7 +92,7 @@ class Player extends Entity{
 
 
 enum State{
-	FREE(timeleft:Float, prevState:State);
+	FREE(timeleft:Float);
 	NODE(point:map.Point);
 	CONNECTION(connection:map.Connection, prev:map.Point);
 }

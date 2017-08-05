@@ -12,9 +12,9 @@ class Level{
 	var width:Float;
 	var height:Float;
 
-	var points:Array<Point>;
+	public var points(default, null):Array<Point>;
 	var connections:Array<Connection>;
-	var entities:Array<Entity>;
+	public var entities(default, null):Array<Entity>;
 
 	public function new(w:Float = 512, h:Float = 512){
 		width = w;
@@ -28,7 +28,7 @@ class Level{
 		this.connections = connectPoints();
 
 		var point = points[MathUtils.RANDOM.GetIn(0, points.length-1)];
-		entities.push(new Player(point));
+		entities.push(new Player(point, this));
 
 		trace('Generated map with total of ${points.length} points');
 	}

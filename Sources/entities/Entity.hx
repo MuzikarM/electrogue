@@ -2,7 +2,7 @@ package entities;
 
 class Entity{
 
-	var pos:Vector2;
+	public var pos(default, null):Vector2;
 
 	public function shouldRender(){
 		return true;
@@ -14,8 +14,8 @@ class Entity{
 
 
 	//TODO create bounds for objects
-	public function getBounds(){
-
+	public function getBounds():differ.shapes.Shape{
+		return null;
 	}
 
 	public function update(dt:Float){
